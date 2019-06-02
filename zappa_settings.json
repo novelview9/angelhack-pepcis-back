@@ -1,0 +1,14 @@
+{
+    "dev": {
+        "aws_region": "ap-northeast-2",
+        "django_settings": "pepcis.settings",
+        "profile_name": "default",
+        "project_name": "angelhack-pepci",
+        "runtime": "python3.6",
+        "s3_bucket": "zappa-3fe598ub2",
+        "memory_size": 1024,
+        "environment_variables": {
+          "your_key": "your_value"}
+
+    }
+}
