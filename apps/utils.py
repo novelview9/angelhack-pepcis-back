@@ -46,10 +46,10 @@ def run_image_finder(image_url):
     response = requests.post(url, data=json.dumps(data), headers=azure_headers)
     face_id = json.loads(response.content)[0].get('faceId')
     result = find_face_image(face_id, 4)
-    persist_id = json.loads(result.content)[0].get('persistedFaceId')
+    persist_id = json.loads(result.content)[-1].get('persistedFaceId')
     from .models import RefugeeFaceAddResult
     rfar = RefugeeFaceAddResult.objects.get(persisted_face_id=persist_id)
-    return frar.refugee.id
+    return rfar.refugee.id
 
 
 
@@ -61,4 +61,9 @@ def find_face_image(face_id, shelter_id):
     }
     url = f'{base_azure_url}/findsimilars'
     response = requests.post(url, data=json.dumps(data), headers=azure_headers)
+    return response
+
+def run_train(shelter_id):
+    url = f'{base_azure_url}/largefacelists/{shelter_id}/train'
+    response = requests.post(url, data=json.dumps({}), headers=azure_headers)
     return response

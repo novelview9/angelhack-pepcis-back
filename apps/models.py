@@ -50,10 +50,29 @@ class FindRequest(Model):
     image = models.ImageField('이미지', upload_to=default_image_path)
     contact = models.CharField('연락처', max_length=250)
     status = models.CharField('상태', choices=STATUS, max_length=250, default=READY)
+    def save(self, *args, **kwargs):
+        is_new = False
+        if not self.id:
+            is_new = True
+        super().save(*args, **kwargs)
+        if is_new:
+            try:
+                from .utils import run_image_finder
+                refugee_id = run_image_finder(self.image.url)
+                FindResult.objects.create(
+                    find_request_id=self.id,
+                    refugee_id=refugee_id,
+                    percent=100
+                )
+                self.status = self.SUCCESS
+                self.save(update_fields=['status'])
+            except Exception as e:
+                print(e)
+
+
 
 
 class FindResult(Model):
     find_request = models.ForeignKey('FindRequest', verbose_name='찾기요청', on_delete=models.CASCADE, related_name='find_results',)
     refugee = models.ForeignKey('Refugee', verbose_name='실종자', on_delete=models.CASCADE, related_name='+',)
     percent = models.CharField('일치도', max_length=250)
-

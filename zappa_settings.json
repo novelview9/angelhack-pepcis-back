@@ -8,7 +8,7 @@
         "s3_bucket": "zappa-3fe598ub2",
         "memory_size": 1024,
         "environment_variables": {
-          "your_key": "your_value"}
+          "AZURE_SUBSCRIPTION_KEY": ":-)"}
 
     }
 }
