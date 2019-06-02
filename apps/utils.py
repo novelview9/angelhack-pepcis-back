@@ -41,12 +41,16 @@ def add_face_image(image_url, shelter_id, refugee_id):
 def run_image_finder(image_url):
     data = {
             "url": image_url,
-            "recognitionModel": "recognition_02"
     }
-    url = f"{base_azure_url}/detect?returnFaceId=true"
+    url = f"{base_azure_url}/detect?returnFaceId=true&recognitionModel=recognition_02"
     response = requests.post(url, data=json.dumps(data), headers=azure_headers)
     face_id = json.loads(response.content)[0].get('faceId')
     result = find_face_image(face_id, 4)
+    persist_id = json.loads(result.content)[0].get('persistedFaceId')
+    from .models import RefugeeFaceAddResult
+    rfar = RefugeeFaceAddResult.objects.get(persisted_face_id=persist_id)
+    return frar.refugee.id
+
 
 
 def find_face_image(face_id, shelter_id):
