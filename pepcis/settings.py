@@ -80,16 +80,12 @@ WSGI_APPLICATION = 'pepcis.wsgi.application'
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
 DATABASES = {
-'default': {
-    'ENGINE': 'django.db.backends.postgresql_psycopg2',
-    'NAME': 'pepcis',
-    'USER': 'pepcis',
-    'PASSWORD': 'pepcis0418',
-    'HOST': 'pepcis.c1fh8fpnfsa2.ap-northeast-2.rds.amazonaws.com',
-    'PORT': '5432',
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'sqlite3.db',                      # Or path to database file if using sqlite3.
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
